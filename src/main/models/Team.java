@@ -1,6 +1,9 @@
 package main.models;
 
+import com.sun.corba.se.impl.orbutil.ObjectWriter;
+
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Team {
 
@@ -81,13 +84,29 @@ public class Team {
     }
 
     public String[] getChasers() {
-        return chasers;
+        return chasers.clone();
+
     }
 
     public void setChasers(String[] chasers) {
         this.chasers = chasers.clone();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || !(obj instanceof Team))
+            return false;
+
+        Team team = (Team) obj;
+        return team.toString().equals(this.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(house, keeper, seeker, Arrays.toString(chasers));
+    }
+
+    @Override
     public String toString() {
         return "House: " + this.house + "\n" +
                 "Keeper: " + this.keeper + "\n" +
